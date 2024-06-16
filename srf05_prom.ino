@@ -30,9 +30,10 @@ uint32_t delayMS = 10000;
 const unsigned int TRIG_PIN = 13;
 const unsigned int ECHO_PIN = 12;
 
-Metric distance(MetricType::gauge, "captor_distance", "Distance to the nearest object (cm)", 1);
-Metric temperature(MetricType::gauge, "captor_temperature", "Temperature (celcius)", 1);
-Metric humidity(MetricType::gauge, "captor_humidity", "Humidity (%)", 1);
+std::unordered_map<std::string, std::string> labelMap= {{"location", "grenier"}};
+Metric distance(MetricType::gauge, "captor_distance", "Distance to the nearest object (cm)", 1, labelMap);
+Metric temperature(MetricType::gauge, "captor_temperature", "Temperature (celcius)", 1, labelMap);
+Metric humidity(MetricType::gauge, "captor_humidity", "Humidity (%)", 1, labelMap);
 
 DHT11 dht11(DHTPIN);
 
@@ -111,7 +112,7 @@ void measureTemp() {
     humidity.setValue(float(hum));
     Serial.printf("Temperature : %d / Humidity %d\n", temp, hum);
   } else {
-    Serial.printf("DHT11 error %s\n", dht11.getErrorString(result));
+    Serial.printf("DHT11 error %s\n", dht11.getErrorString(result).c_str());
   }
 }
 
