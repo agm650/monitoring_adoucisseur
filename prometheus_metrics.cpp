@@ -22,6 +22,8 @@ String Metric::getString() {
   case summary:
     result += String("# TYPE ") + this->name + String(" summary\n");
     break;
+  default:
+    break;
   }
 
   result += this->name;
